@@ -155,8 +155,14 @@ WP[, `:=`(Year=as.numeric(gsub("[^[:digit:].]",
 setcolorder(WP, c("Country", "Code", "Year", "pctWiP", "Ratio"))
 
 WP
+```
 
+# Exploratory Analysis
 
+## Time trends for Portugal
+
+```{r}
+WP[Country %in% "Portugal"]
 ```
 
 

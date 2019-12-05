@@ -149,7 +149,12 @@ WP
 
 ```{r yearratio}
 WP[, `:=`(Year=as.numeric(gsub("[^[:digit:].]",
-                               "")))]
+                               "", YearC)),
+          Ratio = (100-pctWiP)/pctWiP)][
+            , YearC := NULL]
+setcolorder(WP, c("Country", "Code", "Year", "pctWiP", "Ratio"))
+
+WP
 
 
 ```

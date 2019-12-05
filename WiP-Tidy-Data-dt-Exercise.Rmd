@@ -126,7 +126,10 @@ wip[, .N, by=.(Indicator.Code)]
 ## Removing Columns
 
 ```{r }
-
+wip[, c("Indicator.Name", "Indicator.Code", "V65"):=NULL]
+setnames(wip, c("Country.Name", "Country.Code"), c("Country", "Code"))
+head(names(wip))
+tail(names(wip))
 ```
 
 

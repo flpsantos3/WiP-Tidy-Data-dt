@@ -125,7 +125,7 @@ wip[, .N, by=.(Indicator.Code)]
 
 ## Removing Columns
 
-```{r }
+```{r RemoveC}
 wip[, c("Indicator.Name", "Indicator.Code", "V65"):=NULL]
 setnames(wip, c("Country.Name", "Country.Code"), c("Country", "Code"))
 head(names(wip))
@@ -133,8 +133,26 @@ tail(names(wip))
 ```
 
 
+## Reshape to long format.
+
+```{r Longformat}
+WP <- melt(wip,
+           id.vars = c("Country", "Code"),
+           measure = patterns("^X"),
+           variable.name = "YearC",
+           value.name = c("pctWiP"),
+           na.rm = TRUE)
+WP
+```
+
+## Final tweaks to WP
+
+```{r yearratio}
+WP[, `:=`(Year=as.numeric(gsub("[^[:digit:].]",
+                               "")))]
 
 
+```
 
 
 

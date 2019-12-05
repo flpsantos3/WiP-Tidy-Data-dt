@@ -1,6 +1,6 @@
 ---
 title: "Women in Parliament - Tidy Data"
-author: "Your Name Here"
+author: "Filipe Santos"
 date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
 output:
   html_document:
@@ -109,9 +109,25 @@ library(here)
 wip <- fread(here("data", "WB-WiP.csv"), 
              skip = 4, header = TRUE,
              check.names = TRUE)
+wip
 ```
 
-# Continue from here...
+# Data Wrangling Aims
+
+## Superflous Columns
+
+```{r NAcheck}
+wip[, .N, by=.(V65)]
+wip[, .N, by=.(Indicator.Name)]
+wip[, .N, by=.(Indicator.Code)]
+
+```
+
+## Removing Columns
+
+```{r }
+
+```
 
 
 

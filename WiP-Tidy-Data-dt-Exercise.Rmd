@@ -161,11 +161,21 @@ WP
 
 ## Time trends for Portugal
 
-```{r}
+```{r PTdata}
 WP[Country %in% "Portugal"]
 ```
 
+## Visualization
 
+```{r PTWiP}
+library(ggplot2)
+library(magrittr)
+WP[Country %in% "Portugal"] %>%
+ggplot(aes(Year, pctWiP)) + 
+  geom_line() + geom_point() + 
+  scale_y_continuous(limits=c(0,50)) +
+  ylab("% Women in Parliament")
+```
 
 ```{r imageEnd, echo=FALSE, out.width="60%"}
 knitr::include_graphics("images/Women_in_Parliament_rect.svg")

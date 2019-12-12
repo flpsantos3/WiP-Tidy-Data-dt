@@ -159,15 +159,15 @@ WP
 
 # Exploratory Analysis
 
-## Time trends for Portugal
+## Time trends for South Africa
 
-```{r ZAFdata}
+```{r SAfrdata}
 WP[Country %in% "South Africa"]
 ```
 
 ## Visualization
 
-```{r ZAFWiP}
+```{r SAfrWiP}
 library(ggplot2)
 library(magrittr)
 WP[Country %in% "South Africa"] %>%
@@ -196,5 +196,42 @@ WP[Country %in% c("Portugal", "Sweden", "Spain", "Hungary", "Romania", "Finland"
                      breaks=seq(0,50,by=10)) +
   ggtitle("Women in Parliament: EU Countries") +
   ylab("% Women in Parliament")
+```
+
+##South Africa vs other countries
+
+```{r sAfrVs}
+WP[Country %in% c("South Africa", "Sweden", "Portugal", "Venezuela", "Russia", "China", "Japan", "European Union")] %>%
+  ggplot(aes(Year, pctWiP, colour=Country)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks=seq(1990,2020,5)) +
+  scale_y_continuous(limits = c(0,50),
+                     breaks=seq(0,50,by=10)) +
+  ggtitle("Women in Parliament: EU Countries") +
+  ylab("% Women in Parliament")
+```
+
+##Highest percentage of women
+
+```{r mostWiP}
+WP[order(-pctWiP), head(.SD, 10)]
+```
+
+##Highest WiP per year
+
+```{r wipPerYear}
+WP[order(Year, -pctWiP), head(.SD, 1), by = Year]
+```
+
+##Adding continent names
+
+```{r addCont}
+library(countrycode)
+c1 <- as.data.table(codelist)[, .(continent, wb)]
+setnames(c1, c("continent", "wb"),
+         c("Continent", "Code"))
+cWP <- c1[WP, on="Code"]
+cWP
 ```
 

@@ -260,9 +260,7 @@ dWP[!is.na(Continent),
 
 ##5+% Decline Visualization
 
-```{r 5%Decl}
-
-
+```{r 5Decl}
 dclpct <- unique(dWP[!is.na(Continent) &
                        pctDiff <= -5]$Country)
 
@@ -334,7 +332,7 @@ cWP[Country %in% c("Portugal", "Sweden", "Spain", "Hungary", "Romania", "Finland
 
 ##South Africa ranking in Africa
 
-```{r sAfrRank}
+```{r sAfrRankAfr}
 cWP[Country=="South Africa",
     .(Country, Year, pctWiP, Ratio, RankC, TotalC)][order(Year)]
 ```

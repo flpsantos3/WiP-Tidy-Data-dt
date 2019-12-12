@@ -379,3 +379,7 @@ cWP[is.na(Continent)] %>%
   ylab("% Women in Parliament")
 ```
 
+```{r sessInfo}
+sessionInfo()
+```
+

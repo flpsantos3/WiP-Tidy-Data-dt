@@ -277,4 +277,105 @@ WP[Country %in% dclpct] %>%
   ylab("% Women in Parliament")
 ```
 
+##Global ranks by Year
+
+```{r gRankYear}
+cWP[!is.na(Continent),
+    `:=`(RankG = rank(-pctWiP), TotalG = .N),
+    by = .(Year)]
+```
+
+##Global ranking - Portugal
+
+```{r ptRank}
+cWP[Country == "Portugal",
+    .(Country, Year, pctWiP, Ratio, RankG, TotalG)][
+      order(Year)]
+```
+
+##Global ranking - South Africa
+
+```{r sAfrRank}
+cWP[Country == "South Africa",
+    .(Country, Year, pctWiP, Ratio, RankG, TotalG)][
+      order(Year)]
+```
+Values for 1990 are low but since 1997 South Africa has consistently been one of the top countries in regards to percentage of women in Parliament, having never dropped from the top 15. From 2009 (where it ranked the highest, 3rd) to 2018, South Africa has always been in the top 10, putting aside 2014 where it ranked 11th. 
+Except for 1990, South Africa has always ranked higher than Portugal.
+
+##Continent ranks by year
+
+```{r contRankYear}
+cWP[!is.na(Continent),
+    `:=`(RankC = rank(-pctWiP), TotalC = .N),
+    by = .(Continent, Year)]
+```
+
+##Portugal's ranking in Europe
+
+```{r ptRankEU}
+cWP[Country=="Portugal",
+    .(Country, Year, pctWiP, Ratio, RankC, TotalC)][order(Year)]
+```
+
+##Plot of Portugal's ranking vs 6 other EU countries
+
+```{r PTvsEUplot}
+cWP[Country %in% c("Portugal", "Sweden", "Spain", "Hungary", "Romania", "Finland", "Germany")] %>%
+  ggplot(aes(Year, RankC, colour=Country)) +
+  geom_line() + 
+  geom_point() + 
+  scale_x_continuous(breaks=seq(1990, 2020, 5)) + 
+  scale_y_continuous(limits=c(0,45),
+                     breaks=seq(0, 45, by=10)) +
+  ggtitle("Women in Parliament: Ranked") + 
+  ylab("Rank in Europe")
+```
+
+##South Africa ranking in Africa
+
+```{r sAfrRank}
+cWP[Country=="South Africa",
+    .(Country, Year, pctWiP, Ratio, RankC, TotalC)][order(Year)]
+```
+
+##South Africa ranking vs other African countries
+
+```{r SAfrvsAfrplot}
+cWP[Country %in% c("South Africa", "Rwanda", "Guinea-Bissau", "Angola", "Mozambique", "Morocco", "Tunisia")] %>%
+  ggplot(aes(Year, RankC, colour=Country)) +
+  geom_line() + 
+  geom_point() + 
+  scale_x_continuous(breaks=seq(1990, 2020, 5)) + 
+  scale_y_continuous(limits=c(0,45),
+                     breaks=seq(0, 45, by=10)) +
+  ggtitle("Women in Parliament: Ranked") + 
+  ylab("Rank in Africa")
+```
+
+South Africa has always been in the top four countries (with a number 1 position in 98 and 99), if we put aside its values for 1990.
+
+##Highest rank by year and continent
+
+```{r highRankYC}
+cWP[Year %in% c(1990,2018) & RankC==1][
+  order(Continent, Year),
+  .(Continent, Year, Country, pctWiP, RankC)]
+```
+
+##Overall picture - Global trends
+
+```{r globalTrends}
+library(gghighlight)
+cWP[is.na(Continent)] %>%
+  ggplot(aes(Year, pctWiP, group=Country)) +
+  geom_line() +
+  gghighlight(Country=="World",
+              use_direct_label = FALSE) + 
+  scale_x_continuous(breaks=seq(1990, 2020, 5)) +
+  scale_y_continuous(limits=c(0,40),
+                     breaks=seq(0,40,by=10)) +
+  ggtitle("Women in Parliament: Global Trends") +
+  ylab("% Women in Parliament")
+```
 
